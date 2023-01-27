@@ -469,7 +469,7 @@ extern int yylex (void);
 #undef yyTABLES_NAME
 #endif
 
-#line 117 "flex/punylex.l"
+#line 120 "flex/punylex.l"
 
 
 #line 475 "src/lexer/include/punylex.h"
