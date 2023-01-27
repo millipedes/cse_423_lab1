@@ -1,3 +1,11 @@
+/**
+ * @file   constants_macros.h
+ * @brief  This file contains the macros/constants used by the whole program.
+ * @author Matthew C. Lindeman
+ * @date   January 27, 2023
+ * @bug    None known
+ * @todo   Nothing
+ */
 #ifndef CONST_H
 #define CONST_H
 

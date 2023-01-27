@@ -1,3 +1,11 @@
+/**
+ * @file   token_type.c
+ * @brief  This file contains the to_string function for token_types.
+ * @author Matthew C. Lindeman
+ * @date   January 27, 2023
+ * @bug    None known
+ * @todo   Nothing
+ */
 #include "include/token_type.h"
 
 const char * token_type_to_string(token_type type) {

@@ -1,3 +1,12 @@
+/**
+ * @file   token_type.h
+ * @brief  This file contains the token_type enum and the function defintions
+ * for token_type.c
+ * @author Matthew C. Lindeman
+ * @date   January 27, 2023
+ * @bug    None known
+ * @todo   Nothing
+ */
 #ifndef TOKT_H
 #define TOKT_H
 

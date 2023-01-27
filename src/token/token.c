@@ -1,5 +1,21 @@
+/**
+ * @file   token.c
+ * @brief  This file contains the functions related to the token data structure.
+ * @author Matthew C. Lindeman
+ * @date   January 27, 2023
+ * @bug    None known
+ * @todo   Nothing
+ */
 #include "include/token.h"
 
+/**
+ * This function initializes a token with the given parameters.
+ * @param   category - This translates to the token_type of the token.
+ * @param       text - The text literal of the token.
+ * @param     lineno - The line number in which the token was found.
+ * @param   filename - The file name where the token was found.
+ * @return the_token - The token that was initialized.
+ */
 token * init_token(int category, char * text, int lineno, char * filename) {
   // For the '+ 1's below, it is for nul terminator ('\0')
   size_t text_len = strnlen(text, MAX_LEXEME_SIZE) + 1;
@@ -28,6 +44,13 @@ token * init_token(int category, char * text, int lineno, char * filename) {
   return the_token;
 }
 
+/**
+ * This function handles the exapansion of strings for the sval member of a
+ * token.
+ * @param     text - The text literal of the sval.
+ * @param text_len - The length of the text literal of the sval.
+ * @return    sval - The sval with the characters replaced.
+ */
 char * handle_string_expansion(char * text, size_t text_len) {
   size_t sval_len = 1;
   char * sval = NULL;
@@ -58,6 +81,11 @@ char * handle_string_expansion(char * text, size_t text_len) {
   return sval;
 }
 
+/**
+ * This function debugs a token.
+ * @param the_token - The token that is debugged.
+ * @return      N/a
+ */
 void debug_token(token * the_token) {
   printf("category: %s  ", token_type_to_string(the_token->category));
   printf("text: `%s`  ", the_token->text);
@@ -72,6 +100,11 @@ void debug_token(token * the_token) {
   printf("\n");
 }
 
+/**
+ * This function fees a token.
+ * @param the_token - The token that is feed.
+ * @return      N/a
+ */
 void free_token(token * the_token) {
   if(the_token) {
     if(the_token->text)

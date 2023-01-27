@@ -1,5 +1,19 @@
+/**
+ * @file   token_list.c
+ * @brief  This file contains the functions that are required to maintain the
+ * token_list data structure.
+ * @author Matthew C. Lindeman
+ * @date   January 27, 2023
+ * @bug    None known
+ * @todo   Nothing
+ */
 #include "include/token_list.h"
 
+/**
+ * This function initializes a token_list data structure will null members.
+ * @param       N/a
+ * @return the_list - The initialized token_list.
+ */
 token_list * init_token_list(void) {
   token_list * the_list = calloc(1, sizeof(struct TOKEN_LIST_T));
   the_list->value = NULL;
@@ -7,6 +21,12 @@ token_list * init_token_list(void) {
   return the_list;
 }
 
+/**
+ * This function adds the_token to the_list token_list.
+ * @paramn  the_list - The token_list that will have the token added to it.
+ * @paramn the_token - The token that will be added to the list.
+ * @return  the_list - The token_list with the token added.
+ */
 token_list * add_token(token_list * the_list, token * the_token) {
   if(!the_list->value) {
     the_list->value = the_token;
@@ -19,6 +39,11 @@ token_list * add_token(token_list * the_list, token * the_token) {
   return the_list;
 }
 
+/**
+ * This function generates the token_list for a given file_name.
+ * @param file_name - The file_name of the file which is being lexed.
+ * @return the_list - The token_list of all tokens in the file.
+ */
 token_list * generate_token_list(char * file_name) {
   token_list * the_list = init_token_list();
   yyin = fopen(file_name, "r");
@@ -38,15 +63,8 @@ token_list * generate_token_list(char * file_name) {
               file_name));
       }
     }
-    if(indent_stack) {
-      if(INT_CAST(indent_stack->value) == 0 && value == NEWLINE) {
-        the_list = add_token(the_list, init_token(DEDENT, "", yylineno,
-              file_name));
-      }
-    }
     value = yylex();
   }
-  debug_stack(indent_stack);
   while(INT_CAST(indent_stack->value)) indent_stack = pop(indent_stack);
   free_current_stack(indent_stack);
   fclose(yyin);
@@ -54,6 +72,11 @@ token_list * generate_token_list(char * file_name) {
   return the_list;
 }
 
+/**
+ * This function debugs the tokens in the token_list.
+ * @param the_list - The token_list to be debugged.
+ * @return     N/a
+ */
 void debug_token_list(token_list * the_list) {
   if(the_list->value)
     debug_token(the_list->value);
@@ -61,6 +84,11 @@ void debug_token_list(token_list * the_list) {
     debug_token_list(the_list->next);
 }
 
+/**
+ * This function frees a token_list.
+ * @param the_list - The token list to be freed.
+ * @return     N/a
+ */
 void free_token_list(token_list * the_list) {
   if(the_list) {
     if(the_list->value)

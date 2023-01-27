@@ -2371,18 +2371,21 @@ void yyfree (void * ptr )
 #line 121 "flex/punylex.l"
 
 
+/**
+ * This function updates the indent_stack with the given spacing value.
+ * @param value - The value of the spacing.
+ * @return   .\ - The corresponding token_type of the in/dedentation
+ */
 int update_stack(size_t value) {
   void * v_value = calloc(1, sizeof(int));
   INT_CAST(v_value) = (int)value;
   if(!indent_stack) {
     void * s_value = calloc(1, sizeof(int));
     INT_CAST(s_value) = 0;
-    printf("1: %d\n", yylineno);
     indent_stack = init_stack(s_value);
     indent_stack = push(indent_stack, v_value);
     return INDENT;
   } else if(INT_STACK_LT(indent_stack, v_value)) {
-    printf("2: %d\n", yylineno);
     indent_stack = push(indent_stack, v_value);
     return INDENT;
   } else if(INT_STACK_GT(indent_stack, v_value)) {
@@ -2393,7 +2396,6 @@ int update_stack(size_t value) {
     free(v_value);
     return DEDENT;
   } else if(INT_STACK_CMP(indent_stack, v_value)) {
-    printf("4: %d\n", yylineno);
     free(v_value);
     return NODENT;
   } else {
