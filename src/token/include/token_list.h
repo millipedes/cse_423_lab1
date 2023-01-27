@@ -14,6 +14,7 @@ extern char * yytext;
 extern int yylineno;
 extern stack * indent_stack;
 extern int update_stack(size_t value);
+extern int dedent_qty;
 
 typedef struct TOKEN_LIST_T {
   token * value;

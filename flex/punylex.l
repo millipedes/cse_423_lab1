@@ -7,6 +7,7 @@
 #include "../stack/include/stack.h"
 
 stack * indent_stack = NULL;
+int dedent_qty = 0;
 
 int update_stack(size_t value);
 %}
@@ -17,16 +18,16 @@ int update_stack(size_t value);
 
 <<EOF>>                         { return ENDMARKER; }
 [\n\v\f\r][ ]+                  { return update_stack(strnlen(yytext,
-                                           MAX_LEXEME_SIZE)); }
+                                           MAX_LEXEME_SIZE) - 1); }
 [\n\v\f\r]/[A-Za-z][A-Za-z0-9_]+ { return update_stack(strnlen(yytext,
-                                           MAX_LEXEME_SIZE)); }
+                                           MAX_LEXEME_SIZE) - 1); }
 [ \n\v\f\r]
 
 #.*                             { return COMMENT; }
 
 
 "False"                         { return FALSE; }
-"none"                          { return NONE; }
+"None"                          { return NONE; }
 "True"                          { return TRUE; }
 "and"                           { return AND; }
 "as"                            { return AS; }
@@ -123,17 +124,25 @@ int update_stack(size_t value) {
   void * v_value = calloc(1, sizeof(int));
   INT_CAST(v_value) = (int)value;
   if(!indent_stack) {
-    INT_CAST(v_value) = 0;
-    indent_stack = init_stack(v_value);
+    void * s_value = calloc(1, sizeof(int));
+    INT_CAST(s_value) = 0;
+    printf("1: %d\n", yylineno);
+    indent_stack = init_stack(s_value);
+    indent_stack = push(indent_stack, v_value);
     return INDENT;
   } else if(INT_STACK_LT(indent_stack, v_value)) {
+    printf("2: %d\n", yylineno);
     indent_stack = push(indent_stack, v_value);
     return INDENT;
   } else if(INT_STACK_GT(indent_stack, v_value)) {
-    indent_stack = pop(indent_stack);
+    while(INT_STACK_GT(indent_stack, v_value)) {
+      indent_stack = pop(indent_stack);
+      dedent_qty++;
+    }
     free(v_value);
     return DEDENT;
   } else if(INT_STACK_CMP(indent_stack, v_value)) {
+    printf("4: %d\n", yylineno);
     free(v_value);
     return NODENT;
   } else {

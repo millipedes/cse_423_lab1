@@ -8,6 +8,7 @@
 #include "../../main/include/constants_macros.h"
 
 #define NOT_QUOTE(c) ((c != '\'') && (c != '\"')) ? 1 : 0
+#define NOT_NL(c) (c != '\n') ? 1 : 0
 
 #define IS_INT_CATEGORY(x)    (x == INT)  ? 1 : 0
 #define IS_REAL_CATEGORY(x)   (x == REAL) ? 1 : 0

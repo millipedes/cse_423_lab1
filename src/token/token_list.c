@@ -26,9 +26,24 @@ token_list * generate_token_list(char * file_name) {
   while(value != ENDMARKER) {
     if(RESERVED_WORD_NOT_SUPPORTED(value))
       print_not_puny_supported_reserved_word(value);
-    if(!NO_TOK(value))
-      the_list = add_token(the_list, init_token(value, yytext, yylineno,
-            file_name));
+    if(!NO_TOK(value)) {
+      if(dedent_qty) {
+        while(dedent_qty) {
+          the_list = add_token(the_list, init_token(value, yytext, yylineno,
+                file_name));
+          dedent_qty--;
+        }
+      } else {
+        the_list = add_token(the_list, init_token(value, yytext, yylineno,
+              file_name));
+      }
+    }
+    if(indent_stack) {
+      if(INT_CAST(indent_stack->value) == 0 && value == NEWLINE) {
+        the_list = add_token(the_list, init_token(DEDENT, "", yylineno,
+              file_name));
+      }
+    }
     value = yylex();
   }
   debug_stack(indent_stack);

@@ -15,9 +15,9 @@ void free_group(group * the_group);
 
 #define INT_CAST(x) *((int *)(x))
 
-#define INT_STACK_LT(s, x)  INT_CAST(s->value) <  INT_CAST(x) ? 1 : 0
-#define INT_STACK_GT(s, x)  INT_CAST(s->value) >  INT_CAST(x) ? 1 : 0
-#define INT_STACK_CMP(s, x) INT_CAST(s->value) == INT_CAST(x) ? 1 : 0
+#define INT_STACK_LT(s, x)   INT_CAST(s->value) <  INT_CAST(x) ? 1 : 0
+#define INT_STACK_GT(s, x)   INT_CAST(s->value) >  INT_CAST(x) ? 1 : 0
+#define INT_STACK_CMP(s, x)  INT_CAST(s->value) == INT_CAST(x) ? 1 : 0
 
 typedef struct STACK_T {
   void * value;

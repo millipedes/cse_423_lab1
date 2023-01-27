@@ -5,8 +5,13 @@ token * init_token(int category, char * text, int lineno, char * filename) {
   size_t text_len = strnlen(text, MAX_LEXEME_SIZE) + 1;
   size_t filename_len = strnlen(filename, MAX_LEXEME_SIZE) + 1;
   token * the_token = calloc(1, sizeof(struct TOKEN_T));
-  the_token->text = calloc(text_len, sizeof(char));
-  strncpy(the_token->text, text, text_len - 1);
+  if(text[0] != '\n') {
+    the_token->text = calloc(text_len, sizeof(char));
+    strncpy(the_token->text, text, text_len - 1);
+  } else {
+    the_token->text = calloc(text_len - 1, sizeof(char));
+    strncpy(the_token->text, text + 1, text_len - 2);
+  }
   the_token->filename = calloc(filename_len, sizeof(char));
   strncpy(the_token->filename, filename, filename_len - 1);
   the_token->lineno = lineno;
